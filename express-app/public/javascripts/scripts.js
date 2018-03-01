@@ -12,6 +12,11 @@ $(document).ready(function() {
 				url: "http://localhost:8080/messages",
 				data: message
 			})
+		$.ajax({
+				method: "GET",
+				url: "http://localhost:8080/messages",
+				data: message
+			})
 			.done(function(msg) {
 				alert("Data Saved: " + msg);
 			});

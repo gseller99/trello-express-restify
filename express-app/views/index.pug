@@ -1,15 +1,87 @@
 html
   head
-  body
-    h1 Trello Board with JQuery
+    meta(charset='UTF-8')
     |     
-    #page-buttons
-      button#addBox Add Box
-    |         
-    #container
+    title Trello with jQuery
+    |     
+    link(rel='stylesheet', type='text/css', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css')
+    |     
+    script(defer='', src='https://use.fontawesome.com/releases/v5.0.6/js/all.js')
+    |     
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+    |     
+    link(rel='stylesheet', href='https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css')
+    |     
+    script(src='https://code.jquery.com/ui/1.12.1/jquery-ui.js')
+    |     
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    .jumbotron.jumbotron-fluid
+      .container
+        h1.display-4 Trello Board with jQuery
+    |     
+    section
+      .d-flex.justify-content-center
+        button#button1.btn.btn-primary.border.border-dark.mr-3.mt-3.ml-3(type='button')  New Swimlane
+    |     
+    #swimlanes
+    |     
+    script(type='text/javascript').
+      $('document').ready(function() {
+      $('button').on('click', function() {
+      var swimlaneHeader = prompt('New swimlane name');
+      var newSwimlane = $('<div class="swimlane"></div>');
+      newSwimlane.draggable({
+      start: function(){
+      $(this).css( "zIndex", 100 );
+      }
+      });
+      newSwimlane.droppable({
+      drop: function(event, ui){
+      var otherSwimlane = ui.draggable;
+      var thisSwimlane = $(this);
+      otherSwimlane.detach();
+      otherSwimlane.insertAfter(thisSwimlane);
+      otherSwimlane.css( "zIndex", 0 );
+      }
+      });
+      newSwimlane.append('<div class="swimlaneHeader">' + swimlaneHeader + '</div>');
+      var buttons = newSwimlane.append('<div class="buttons"><i class="fas fa-trash-alt icons"></i><i class="fas fa-pencil-alt icons"></i><i class="fas fa-plus icons"></i></div>');
+      buttons.on('click', '.fa-trash-alt', function() {
+      $(this).closest('.swimlane').remove();
+      });
+      buttons.on('click', '.fa-plus', function() {
+      var cardHeader = prompt('New card name');
+      var card = $('<div class="card"></div>');
+      card.draggable();
+      card.droppable({
+      drop: function(event, ui){
+      var otherCard = ui.draggable;
+      var thisCard = $(this);
+      otherCard.detach();
+      otherCard.insertBefore(thisCard);
+      }
+      });
+      card.append('<div class="cardHeader">' + cardHeader + '</div>')
+      var cardButtons =  $('<div class="buttons"><i class="fas fa-trash-alt icons"></i><i class="fas fa-pencil-alt icons"></i></div>');
+      card.append(cardButtons);
+      newSwimlane.append(card);
+      cardButtons.on('click', '.fa-trash-alt', function() {
+      $(this).closest('.card').remove();
+      });
+      buttons.on('click', '.fa-pencil-alt', function() {
+      var newName = prompt('New card name').value;
+      $('this').closest(".cardHeader").remove();
+      $('swimlane').append(newName);
+      });
+      })
+      $('#swimlanes').append(newSwimlane);
+      });
+      });
+      // create event handler for mouseover for both cards and swimlanes
+      // make cards and swimlane draggable w/jQuery
+      //space left when dragged
 
-    
-    
 
 
     
